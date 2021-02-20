@@ -31,11 +31,10 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
     // start
     @Override
     public void afterSingletonsInstantiated() {
-
-        // init JobHandler Repository
-        /*initJobHandlerRepository(applicationContext);*/
-
         // init JobHandler Repository (for method)
+        /**
+         * 初始化方法作业处理器
+         */
         initJobHandlerMethodRepository(applicationContext);
 
         // refresh GlueFactory
@@ -43,6 +42,7 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
 
         // super start
         try {
+            // 调用父类的启动方法
             super.start();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -56,28 +56,6 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
     }
 
 
-    /*private void initJobHandlerRepository(ApplicationContext applicationContext) {
-        if (applicationContext == null) {
-            return;
-        }
-
-        // init job handler action
-        Map<String, Object> serviceBeanMap = applicationContext.getBeansWithAnnotation(JobHandler.class);
-
-        if (serviceBeanMap != null && serviceBeanMap.size() > 0) {
-            for (Object serviceBean : serviceBeanMap.values()) {
-                if (serviceBean instanceof IJobHandler) {
-                    String name = serviceBean.getClass().getAnnotation(JobHandler.class).value();
-                    IJobHandler handler = (IJobHandler) serviceBean;
-                    if (loadJobHandler(name) != null) {
-                        throw new RuntimeException("xxl-job jobhandler[" + name + "] naming conflicts.");
-                    }
-                    registJobHandler(name, handler);
-                }
-            }
-        }
-    }*/
-
     private void initJobHandlerMethodRepository(ApplicationContext applicationContext) {
         if (applicationContext == null) {
             return;
@@ -86,8 +64,8 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
         String[] beanDefinitionNames = applicationContext.getBeanNamesForType(Object.class, false, true);
         for (String beanDefinitionName : beanDefinitionNames) {
             Object bean = applicationContext.getBean(beanDefinitionName);
-
-            Map<Method, XxlJob> annotatedMethods = null;   // referred to ：org.springframework.context.event.EventListenerMethodProcessor.processBean
+            // referred to ：org.springframework.context.event.EventListenerMethodProcessor.processBean
+            Map<Method, XxlJob> annotatedMethods = null;
             try {
                 annotatedMethods = MethodIntrospector.selectMethods(bean.getClass(),
                         new MethodIntrospector.MetadataLookup<XxlJob>() {
@@ -129,7 +107,7 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
                 }
                 method.setAccessible(true);
 
-                // init and destory
+                // init and destroy
                 Method initMethod = null;
                 Method destroyMethod = null;
 
@@ -157,7 +135,6 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
 
     }
 
-    // ---------------------- applicationContext ----------------------
     private static ApplicationContext applicationContext;
 
     @Override
@@ -168,5 +145,4 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
-
 }

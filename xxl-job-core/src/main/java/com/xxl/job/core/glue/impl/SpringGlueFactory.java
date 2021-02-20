@@ -76,5 +76,4 @@ public class SpringGlueFactory extends GlueFactory {
             }
         }
     }
-
 }

@@ -72,29 +72,32 @@ public class XxlJobExecutor {
 
     // ---------------------- start + stop ----------------------
     public void start() throws Exception {
-
         // init logpath
+        // 初始化日志路径
         XxlJobFileAppender.initLogPath(logPath);
 
         // init invoker, admin-client
+        // 初始化调度中心集群列表
         initAdminBizList(adminAddresses, accessToken);
 
-
         // init JobLogFileCleanThread
+        // 初始化日志清理线程
         JobLogFileCleanThread.getInstance().start(logRetentionDays);
 
         // init TriggerCallbackThread
+        // 初始化回调线程
         TriggerCallbackThread.getInstance().start();
 
         // init executor-server
+        // 启动内嵌的服务器
         initEmbedServer(address, ip, port, appname, accessToken);
     }
 
     public void destroy() {
-        // destory executor-server
+        // destroy executor-server
         stopEmbedServer();
 
-        // destory jobThreadRepository
+        // destroy jobThreadRepository
         if (jobThreadRepository.size() > 0) {
             for (Map.Entry<Integer, JobThread> item : jobThreadRepository.entrySet()) {
                 JobThread oldJobThread = removeJobThread(item.getKey(), "web container destroy and kill the job.");
@@ -112,10 +115,10 @@ public class XxlJobExecutor {
         jobHandlerRepository.clear();
 
 
-        // destory JobLogFileCleanThread
+        // destroy JobLogFileCleanThread
         JobLogFileCleanThread.getInstance().toStop();
 
-        // destory TriggerCallbackThread
+        // destroy TriggerCallbackThread
         TriggerCallbackThread.getInstance().toStop();
 
     }
@@ -128,11 +131,9 @@ public class XxlJobExecutor {
         if (adminAddresses != null && adminAddresses.trim().length() > 0) {
             for (String address : adminAddresses.trim().split(",")) {
                 if (address != null && address.trim().length() > 0) {
-
                     AdminBiz adminBiz = new AdminBizClient(address.trim(), accessToken);
-
                     if (adminBizList == null) {
-                        adminBizList = new ArrayList<AdminBiz>();
+                        adminBizList = new ArrayList<>();
                     }
                     adminBizList.add(adminBiz);
                 }
@@ -148,14 +149,14 @@ public class XxlJobExecutor {
     private EmbedServer embedServer = null;
 
     private void initEmbedServer(String address, String ip, int port, String appname, String accessToken) throws Exception {
-
         // fill ip port
         port = port > 0 ? port : NetUtil.findAvailablePort(9999);
         ip = (ip != null && ip.trim().length() > 0) ? ip : IpUtil.getIp();
 
         // generate address
         if (address == null || address.trim().length() == 0) {
-            String ip_port_address = IpUtil.getIpPort(ip, port);   // registry-address：default use address to registry , otherwise use ip:port if address is null
+            // registry-address：default use address to registry , otherwise use ip:port if address is null
+            String ip_port_address = IpUtil.getIpPort(ip, port);
             address = "http://{ip_port}/".replace("{ip_port}", ip_port_address);
         }
 
@@ -189,8 +190,9 @@ public class XxlJobExecutor {
         return jobHandlerRepository.get(name);
     }
 
-
-    // ---------------------- job thread repository ----------------------
+    /**
+     * job thread repository
+     */
     private static ConcurrentMap<Integer, JobThread> jobThreadRepository = new ConcurrentHashMap<Integer, JobThread>();
 
     public static JobThread registJobThread(int jobId, IJobHandler handler, String removeOldReason) {
