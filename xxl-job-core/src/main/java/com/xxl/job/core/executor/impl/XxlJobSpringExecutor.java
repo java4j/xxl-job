@@ -18,7 +18,6 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-
 /**
  * xxl-job executor (for spring)
  *
@@ -27,8 +26,9 @@ import java.util.Map;
 public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationContextAware, SmartInitializingSingleton, DisposableBean {
     private static final Logger logger = LoggerFactory.getLogger(XxlJobSpringExecutor.class);
 
-
-    // start
+    /**
+     * 启动start
+     */
     @Override
     public void afterSingletonsInstantiated() {
         // init JobHandler Repository (for method)
@@ -49,7 +49,9 @@ public class XxlJobSpringExecutor extends XxlJobExecutor implements ApplicationC
         }
     }
 
-    // destroy
+    /**
+     * 关闭destroy
+     */
     @Override
     public void destroy() {
         super.destroy();
