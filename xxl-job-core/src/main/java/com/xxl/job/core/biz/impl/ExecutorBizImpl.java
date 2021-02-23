@@ -52,7 +52,6 @@ public class ExecutorBizImpl implements ExecutorBiz {
         // valid：jobHandler + jobThread
         GlueTypeEnum glueTypeEnum = GlueTypeEnum.match(triggerParam.getGlueType());
         if (GlueTypeEnum.BEAN == glueTypeEnum) {
-
             // new jobhandler
             IJobHandler newJobHandler = XxlJobExecutor.loadJobHandler(triggerParam.getExecutorHandler());
 
@@ -60,7 +59,6 @@ public class ExecutorBizImpl implements ExecutorBiz {
             if (jobThread != null && jobHandler != newJobHandler) {
                 // change handler, need kill old thread
                 removeOldReason = "change jobhandler or glue type, and terminate the old job thread.";
-
                 jobThread = null;
                 jobHandler = null;
             }

@@ -10,12 +10,12 @@ public class IdleBeatParam implements Serializable {
 
     public IdleBeatParam() {
     }
+
     public IdleBeatParam(int jobId) {
         this.jobId = jobId;
     }
 
     private int jobId;
-
 
     public int getJobId() {
         return jobId;
@@ -24,5 +24,4 @@ public class IdleBeatParam implements Serializable {
     public void setJobId(int jobId) {
         this.jobId = jobId;
     }
-
 }

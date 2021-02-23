@@ -120,7 +120,6 @@ public class EmbedServer {
 
 
     // ---------------------- registry ----------------------
-
     /**
      * netty_http
      * <p>

@@ -29,7 +29,6 @@ public class GlueFactory {
 		}
 	}
 
-
 	/**
 	 * groovy class loader
 	 */
