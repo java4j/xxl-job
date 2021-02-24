@@ -69,7 +69,6 @@ public class XxlJobExecutor {
         this.logRetentionDays = logRetentionDays;
     }
 
-
     // ---------------------- start + stop ----------------------
     public void start() throws Exception {
         // init logpath
@@ -114,15 +113,12 @@ public class XxlJobExecutor {
         }
         jobHandlerRepository.clear();
 
-
         // destroy JobLogFileCleanThread
         JobLogFileCleanThread.getInstance().toStop();
 
         // destroy TriggerCallbackThread
         TriggerCallbackThread.getInstance().toStop();
-
     }
-
 
     // ---------------------- admin-client (rpc invoker) ----------------------
     private static List<AdminBiz> adminBizList;
@@ -215,7 +211,6 @@ public class XxlJobExecutor {
         if (oldJobThread != null) {
             oldJobThread.toStop(removeOldReason);
             oldJobThread.interrupt();
-
             return oldJobThread;
         }
         return null;

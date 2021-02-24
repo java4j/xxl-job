@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * admin api test
+ * 调度中心实现类
  *
  * @author xuxueli 2017-07-28 22:14:52
  */

@@ -100,7 +100,6 @@ public class ExecutorRegistryThread {
                     }
                 }
                 logger.info(">>>>>>>>>>> xxl-job, executor registry thread destory.");
-
             }
         });
         registryThread.setDaemon(true);

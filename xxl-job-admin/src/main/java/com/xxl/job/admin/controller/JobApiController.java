@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
+ * 执行器调用调度中心接口都在这里实现
+ *
  * Created by xuxueli on 17/5/10.
  */
 @Controller
@@ -66,7 +68,5 @@ public class JobApiController {
         } else {
             return new ReturnT<String>(ReturnT.FAIL_CODE, "invalid request, uri-mapping("+ uri +") not found.");
         }
-
     }
-
 }
